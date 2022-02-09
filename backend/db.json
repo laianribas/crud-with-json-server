@@ -1,11 +1,19 @@
 {
-    "users": [{
-        "id": 1,
-        "name": "José da Silva",
-        "email": "jdsilva@gmail.com"
-    }, {
-        "id": 2,
-        "name": "Mariana Souza",
-        "email": "msouza01@gmail.com"
-    }]
+  "users": [
+    {
+      "id": 1,
+      "name": "José da Silva",
+      "email": "jdsilva@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Mariana Souza",
+      "email": "msouza01@gmail.com"
+    },
+    {
+      "name": "dsadsa",
+      "email": "dasdsa",
+      "id": 3
+    }
+  ]
 }
