@@ -7,13 +7,14 @@ import Logo from '../components/template/Logo'
 import Nav from '../components/template/Nav'
 import Footer from '../components/template/Footer'
 import Home from '../components/home/Home'
+import Routes from './routes'
 
 const App = () => {
   return (
     <div className="app">
       <Logo />
       <Nav />
-      <Home />
+      <Routes />
       <Footer />
     </div>
   )
