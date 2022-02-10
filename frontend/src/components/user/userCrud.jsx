@@ -19,6 +19,12 @@ const initialState = {
 class UserCrud extends Component {
   state = { ...initialState }
 
+  componentWillMount() {
+    axios.get(baseUrl).then((response) => {
+      this.setState({ list: response.data })
+    })
+  }
+
   clear() {
     this.setState({ user: initialState.user })
   }
@@ -32,11 +38,64 @@ class UserCrud extends Component {
       this.setState({ user: initialState.user, list })
     })
   }
+  getUpdatedList(user, add = true) {
+    const list = this.state.list.filter((u) => u.id !== user.id)
+    if (add) list.unshift(user)
+    return list
+  }
 
   updateField(event) {
     const user = { ...this.state.user }
     user[event.target.name] = event.target.value
     this.setState({ user: user })
+  }
+
+  load(user) {
+    this.setState({ user })
+  }
+
+  remove(user) {
+    axios.delete(`${baseUrl}/${user.id}`).then((response) => {
+      const list = this.getUpdatedList(user, false)
+      this.setState({ list })
+    })
+  }
+
+  renderTable() {
+    return (
+      <table className="table mt-4">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>{this.renderRows()}</tbody>
+      </table>
+    )
+  }
+
+  renderRows() {
+    return this.state.list.map((user) => {
+      return (
+        <tr key={user.id}>
+          <td>{user.name}</td>
+          <td>{user.email}</td>
+          <td>
+            <button className="btn btn-warning" onClick={() => this.load(user)}>
+              <i className="fa fa-pencil"></i>
+            </button>
+            <button
+              className="btn btn-danger ml-2"
+              onClick={() => this.remove(user)}
+            >
+              <i className="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      )
+    })
   }
 
   renderForm() {
@@ -88,13 +147,13 @@ class UserCrud extends Component {
     )
   }
 
-  getUpdatedList(user) {
-    const list = this.state.list.filter((u) => u.id !== user.id)
-    list.unshift(user)
-    return list
-  }
   render() {
-    return <Main {...headerProps}>{this.renderForm()}</Main>
+    return (
+      <Main {...headerProps}>
+        {this.renderForm()}
+        {this.renderTable()}
+      </Main>
+    )
   }
 }
 
